@@ -5,6 +5,7 @@ Returns the current game state as viewed by playerid
 PlayerID is NOT player name, it's a secret ID.
 ```
 {
+    'hand_number' : 5              // Current hand number
     'dice'        : [0,0,2,1,0,1], // How many of each dice value the player has. In this case, 2 3's, a 4, and a 6.
     'turn'        : 'Kevin',       // Whose turn it is
     'current_bet' : [1,5],         // Current bet, in this case one 5
@@ -61,3 +62,17 @@ Join a game by posting:
 Will return OK if you joined successfully, or error code ???? if the name was taken. If the game doesn't exist it will create it.
 ### `DELETE`
 Delete an entire game
+
+## `/start/<gameid>/<playerid>`
+### `GET`
+```
+{
+    'game_started' : False,
+}
+```
+### `POST`
+```
+{
+    'ready' : True,
+}
+```
