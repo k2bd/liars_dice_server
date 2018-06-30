@@ -1,6 +1,6 @@
 # Web API:
-##`/game/<gameid>/<playerid>`
-###`GET`
+## `/game/<gameid>/<playerid>`
+### `GET`
 Returns the current game state as viewed by playerid
 PlayerID is NOT player name, it's a secret ID.
 ```
@@ -11,7 +11,7 @@ PlayerID is NOT player name, it's a secret ID.
     'prev_values' : [4,3,2,1,4,6] // In the previous round, how many of each dice there were
 }
 ```
-###`POST`
+### `POST`
 A player makes a turn by posting something of the following format:
 ```
 {
@@ -23,11 +23,11 @@ A player makes a turn by posting something of the following format:
 This will return OK if the move is accepted, or the following error code if not:
  - ???? - Bet Invalid
  - ???? - Not allowed to call blufff, e.g. on first turn.
-###`DELETE`
+### `DELETE`
 A player wants to leave the game.
 
-##`/config/<gameid>`
-###`GET`
+## `/config/<gameid>`
+### `GET`
 Returns the current game config
 ```
 {
@@ -48,7 +48,7 @@ Returns the current game config
         ]
 }
 ```
-###`POST`
+### `POST`
 Join a game by posting:
 ```
 {
@@ -57,5 +57,5 @@ Join a game by posting:
 }
 ```
 Will return OK if you joined successfully, or error code ???? if the name was taken.
-###`DELETE`
+### `DELETE`
 Delete an entire game
