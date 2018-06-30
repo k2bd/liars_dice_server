@@ -97,8 +97,7 @@ def startgame(gameid,playerid):
         return jsonify(status="Error", message="Game does not exist!")
     game = games[gameid]
     if request.method == "GET":
-        response = 
-        {
+        response = {
             'game_started' : game.started
         }
         return jsonify(reponse)
