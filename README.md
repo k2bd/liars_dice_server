@@ -58,6 +58,6 @@ Join a game by posting:
     'id'   : '123e4567-e89b-12d3-a456-426655440000' // A randomly generated secret ID string used for API calls. No spaces.
 }
 ```
-Will return OK if you joined successfully, or error code ???? if the name was taken.
+Will return OK if you joined successfully, or error code ???? if the name was taken. If the game doesn't exist it will create it.
 ### `DELETE`
 Delete an entire game
