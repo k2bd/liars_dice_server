@@ -22,6 +22,7 @@ A player makes a turn by posting something of the following format:
 }
 ```
 This will return OK if the move is accepted, or the following error code if not:
+ - ???? - Not your turn
  - ???? - Bet Invalid
  - ???? - Not allowed to call blufff, e.g. on first turn.
 ### `DELETE`
