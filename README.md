@@ -53,7 +53,7 @@ Join a game by posting:
 ```
 {
     'name' : 'Mr. E' // Name you'd like to take in the game
-    'id'   : '123e4567-e89b-12d3-a456-426655440000' // A randomly generated UUID string used for API calls
+    'id'   : '123e4567-e89b-12d3-a456-426655440000' // A randomly generated secret ID string used for API calls. No spaces.
 }
 ```
 Will return OK if you joined successfully, or error code ???? if the name was taken.
