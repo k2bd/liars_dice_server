@@ -16,6 +16,7 @@ class Player:
         self.player_id = player_id
         self.dice_left = 5
         self.dice = [0,0,0,0,0,0]
+        self.ready = False
 
 class LiarsDiceGame:
     def __init__(self, game_id):
@@ -26,6 +27,8 @@ class LiarsDiceGame:
         self.current_bet = [0,0] # number, rank
 
         self.hand_number = 0
+
+        self.started = False
 
         self.made_bet = None
 
@@ -57,7 +60,7 @@ class LiarsDiceGame:
         if self.totalDice(self.current_bet[1]) >= self.current_bet[0]:
             # Bluff was unsuccessful
             for player in self.players:
-                if player.player_id = bluffer_id:
+                if player.player_id == bluffer_id:
                     losing_player = player
         else:
             # Bluff was successful
@@ -88,11 +91,32 @@ class LiarsDiceGame:
 
 games = {}
 
-@application.route("/start/<gameid>",methods=["GET","POST"])
-def startgame(gameid):
+@application.route("/start/<gameid>/<playerid>",methods=["GET","POST"])
+def startgame(gameid,playerid):
+    if gameid not in games:
+        return jsonify(status="Error", message="Game does not exist!")
+    game = games[gameid]
     if request.method == "GET":
-        # TODO: start the game
-        pass
+        response = 
+        {
+            'game_started' : game.started
+        }
+        return jsonify(reponse)
+    elif request.method == "POST":
+        player = None
+        for p in game.players:
+            if playerid == p.player_id:
+                player = p
+        if player is None:
+            return jsonify(status="Error",message="Player has not joined this game")
+        try:
+            player.ready = request.json["ready"]
+        except Exception as e:
+            return jsonify(status="Error",message="Could not set player ready status")
+        
+        if all([p.ready for p in game.players]):
+            game.newHand()
+            game.started = True
 
 @application.route("/config/<gameid>",methods=["GET","POST","DELETE"])
 def config(gameid):
@@ -131,7 +155,7 @@ def game(gameid,playerid):
             bluff_call = request.json['bluff_call']
             bet = request.json['bet']
         except Exception as e:
-            return jsonfify(status="Error",message=e)
+            return jsonify(status="Error",message=e)
 
         game = games[gameid]
         if bluff_call:
@@ -162,12 +186,12 @@ def game(gameid,playerid):
         response = {
             'hand_number' : game.hand_number,
             'dice'        : player.dice,
-            'turn'        : game.players[game.current_turn].player_name
+            'turn'        : game.players[game.current_turn].player_name,
             'current_bet' : game.current_bet,
             'prev_loser'  : game.prev_loser,
             'prev_values' : game.prev_values,
         }
-        
+
         return jsonify(response)
     if request.method == "DELETE":
         # Leave a game
