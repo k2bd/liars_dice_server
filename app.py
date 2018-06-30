@@ -23,6 +23,10 @@ def config(gameid):
                 'players' : [],
             }
             db.games.insert_one(game)
+
+        # Now insert this player
+        try:
+            db.Games.
         
     if request.method == "GET":
         # Get game state
