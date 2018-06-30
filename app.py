@@ -100,7 +100,7 @@ def startgame(gameid,playerid):
         response = {
             'game_started' : game.started
         }
-        return jsonify(reponse)
+        return jsonify(response)
     elif request.method == "POST":
         player = None
         for p in game.players:
@@ -111,11 +111,13 @@ def startgame(gameid,playerid):
         try:
             player.ready = request.json["ready"]
         except Exception as e:
-            return jsonify(status="Error",message="Could not set player ready status")
+            return jsonify(status="Error",message=e)
         
         if all([p.ready for p in game.players]):
             game.newHand()
             game.started = True
+        
+        return jsonify(status="OK",message="")
 
 @application.route("/config/<gameid>",methods=["GET","POST","DELETE"])
 def config(gameid):
