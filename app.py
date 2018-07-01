@@ -67,7 +67,7 @@ class LiarsDiceGame:
             losing_player = self.players[self.made_bet]
         
         self.last_loser = losing_player.player_name
-        losing_player.totalDice -= 1
+        losing_player.dice_left -= 1
         self.newHand()
 
     def totalDice(self,rank):
@@ -83,10 +83,13 @@ class LiarsDiceGame:
         for i in range(6):
             self.last_result[i] = self.totalDice(i+1)
         
+        self.current_bet = [0,0]
+
         for player in self.players:
             new_dice = [0,0,0,0,0,0]
             for i in range(player.dice_left):
                 new_dice[random.randint(0,5)] += 1
+            player.dice = new_dice
 
 
 games = {}
@@ -160,7 +163,7 @@ def game(gameid,playerid):
 
         game = games[gameid]
         if bluff_call:
-            game.bluff_call(playerid)
+            game.bluff(playerid)
             return jsonify(status="OK",message="")
 
         if game.players[game.current_turn].player_id == playerid:
@@ -189,8 +192,8 @@ def game(gameid,playerid):
             'dice'        : player.dice,
             'turn'        : game.players[game.current_turn].player_name,
             'current_bet' : game.current_bet,
-            'prev_loser'  : game.prev_loser,
-            'prev_values' : game.prev_values,
+            'prev_loser'  : game.last_loser,
+            'prev_values' : game.last_result,
         }
 
         return jsonify(response)
